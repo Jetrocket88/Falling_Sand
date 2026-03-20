@@ -1,0 +1,25 @@
+Game Loop:
+    Does Two Things:
+        Handle user input.
+        Update simulation.
+
+Update Simulation:
+    Golden Rule!
+    You must process the grid from buttom -> top, right -> left.
+    Y should count down.
+    X can really go either way.
+
+For each pixel in the grid:
+    check if it is sand
+    if it is, check the neighbours according to it's rules
+    
+    Rules (In order):
+        If the space below the sand is : Free, move it there
+        If the cell below is not empty : Check the cell down and to the left
+        If the first two checks fail   : Check the cell down and to the right
+        Else                           : Don't move
+
+Finally:
+    Draw the result
+
+
