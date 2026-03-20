@@ -1,16 +1,20 @@
 #ifndef GAME_H
 
+#include <stdio.h>
+
 #include "stddef.h"
 #include "../include/raylib.h"
 
 #define GAME_H
 typedef enum {
+    EMPTY,
     SAND,
     WOOD,
     FIRE,
     WATER,
     METAL,
-    LIGHTNING
+    LIGHTNING,
+    ASH
 } PART_TYPE;
 
 extern size_t rows;
@@ -21,9 +25,13 @@ extern size_t cols;
 
 #define CELL_SIZE 5
 
+#define GRID_AT(grid, x, y) grid[(y) * (cols) + (x)]
 
-#define GRID_AT(grid, x, y) grid[(y) * cols + (x)]
+void swap_cells(PART_TYPE *grid, Vector2 *p1, Vector2 *p2);
+void swap_grids(PART_TYPE **a, PART_TYPE **b);
+void draw_grid(PART_TYPE *grid);
+void show_info();
 
-void SwapGridCells(PART_TYPE *grid);
+void sand_physics(PART_TYPE *read_grid, PART_TYPE *write_grid, Vector2* v);
 
 #endif //GAME_H
