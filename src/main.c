@@ -15,15 +15,12 @@ int main(void) {
     PART_TYPE *read_grid  = calloc(rows * cols, sizeof(PART_TYPE));
     PART_TYPE *write_grid = calloc(rows * cols, sizeof(PART_TYPE));
 
-    GRID_AT(read_grid, cols / 2, rows / 2) = SAND;
-    GRID_AT(write_grid, cols / 2, rows / 2) = SAND;
+    set_cell_type(read_grid, write_grid, SAND, &(Vector2){.x = (float)cols / 2, .y = (float)rows / 2});
     printf("Type at middle : %d", GRID_AT(read_grid, cols / 2, rows / 2));
 
     InitWindow(800, 800, "Raylib Basic Window");
     SetTargetFPS(10);
 
-    //SwapGridCells(grid, &pos, &newPos);
-    
     while(!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
