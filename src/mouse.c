@@ -1,4 +1,3 @@
-
 #include "mouse.h"
 
 void mouse_place(PART_TYPE *rg, PART_TYPE *wg) {
