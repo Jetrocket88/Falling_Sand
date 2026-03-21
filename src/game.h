@@ -1,6 +1,7 @@
 #ifndef GAME_H
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "stddef.h"
 #include "../include/raylib.h"
@@ -32,7 +33,9 @@ void swap_grids(PART_TYPE **a, PART_TYPE **b);
 void draw_grid(PART_TYPE *grid);
 void set_cell_type(PART_TYPE *rg, PART_TYPE *wg, PART_TYPE type, int x, int y);
 void show_info();
+Vector2 screen_to_cell(const Vector2 *pos);
 
 void sand_physics(PART_TYPE *write_grid, Vector2* v);
+
 
 #endif //GAME_H

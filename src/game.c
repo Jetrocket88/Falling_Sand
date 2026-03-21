@@ -69,16 +69,17 @@ void show_info() {
 
 void sand_physics(PART_TYPE *write_grid, Vector2* v) {
     //check below first
-    if (GRID_AT(write_grid, (int)v->x, (int)v->y + 1) == EMPTY && v->y + 1 < rows) {
+    if (v->y + 1 < rows && GRID_AT(write_grid, (int)v->x, (int)v->y + 1) == EMPTY) {
         swap_cells(write_grid, v, &(Vector2){.x = v->x, .y = v->y + 1});
 
-    } else if (GRID_AT(write_grid, (int)v->x - 1, (int)v->y + 1) == EMPTY 
-        && v->y + 1 < rows && v->x - 1 < 0 
+    } 
+    else if (v->y + 1 < rows && v->x - 1 >= 0 
+        && GRID_AT(write_grid, (int)v->x - 1, (int)v->y + 1) == EMPTY 
     ) {
         swap_cells(write_grid, v, &(Vector2){.x = v->x - 1, .y = v->y + 1});
 
-    } else if (GRID_AT(write_grid, (int)v->x + 1, (int)v->y + 1) == EMPTY
-        && v->y + 1 < rows && v->x + 1 < cols 
+    } else if (v->y + 1 < rows && v->x + 1 < cols 
+        && GRID_AT(write_grid, (int)v->x + 1, (int)v->y + 1) == EMPTY
     ) {
         swap_cells(write_grid, v, &(Vector2){.x = v->x + 1, .y = v->y + 1});
     } 
@@ -94,3 +95,11 @@ inline void set_cell_type(PART_TYPE *rg, PART_TYPE *wg, PART_TYPE type, int x, i
     GRID_AT(rg, x, y)= type;
     GRID_AT(wg, x, y)= type;
 }
+
+
+inline Vector2 screen_to_cell(const Vector2 *pos) {
+    Vector2 cell = {.x = pos->x / CELL_SIZE, .y = pos->y / CELL_SIZE};
+    return cell;
+}
+
+

@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include "game.h"
+#include "mouse.h"
 
 
 int main(void) {
@@ -20,13 +21,15 @@ int main(void) {
     printf("Type at middle : %d", GRID_AT(read_grid, cols / 2, rows / 2));
 
     InitWindow(800, 800, "Raylib Basic Window");
-    SetTargetFPS(10);
+    SetTargetFPS(100);
 
     while(!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
         
         memcpy(write_grid, read_grid, rows * cols * sizeof(PART_TYPE));
+
+        mouse_place(read_grid, write_grid);
 
         for (int y = rows - 1; y >= 0; y--) {
             for (int x = cols - 1; x >= 0; x--) {
@@ -56,6 +59,7 @@ int main(void) {
                 }
             }
         }
+        mouse_place(read_grid, write_grid);
         draw_grid(write_grid);
         swap_grids(&read_grid, &write_grid);
         EndDrawing();
