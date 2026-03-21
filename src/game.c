@@ -67,18 +67,18 @@ void show_info() {
     printf("Number of Cols: %zu\n", cols);
 }
 
-void sand_physics(PART_TYPE *read_grid, PART_TYPE *write_grid, Vector2* v) {
+void sand_physics(PART_TYPE *write_grid, Vector2* v) {
     //check below first
-    if (GRID_AT(read_grid, (int)v->x, (int)v->y + 1) == EMPTY && v->y + 1 < rows) {
+    if (GRID_AT(write_grid, (int)v->x, (int)v->y + 1) == EMPTY && v->y + 1 < rows) {
         swap_cells(write_grid, v, &(Vector2){.x = v->x, .y = v->y + 1});
 
-    } else if (GRID_AT(read_grid, (int)v->x + 1, (int)v->y + 1) == EMPTY 
-        && v->y + 1 < rows && v->x + 1 < cols
+    } else if (GRID_AT(write_grid, (int)v->x - 1, (int)v->y + 1) == EMPTY 
+        && v->y + 1 < rows && v->x - 1 < 0 
     ) {
-        swap_cells(write_grid, v, &(Vector2){.x = v->x + 1, .y = v->y + 1});
+        swap_cells(write_grid, v, &(Vector2){.x = v->x - 1, .y = v->y + 1});
 
-    } else if (GRID_AT(read_grid, (int)v->x - 1, (int)v->y + 1) == EMPTY
-        && v->y + 1 < rows && v->x - 1 < cols
+    } else if (GRID_AT(write_grid, (int)v->x + 1, (int)v->y + 1) == EMPTY
+        && v->y + 1 < rows && v->x + 1 < cols 
     ) {
         swap_cells(write_grid, v, &(Vector2){.x = v->x + 1, .y = v->y + 1});
     } 
@@ -90,7 +90,7 @@ inline void swap_grids(PART_TYPE **a, PART_TYPE **b) {
     *b = tmp;
 }
 
-inline void set_cell_type(PART_TYPE *rg, PART_TYPE *wg, PART_TYPE type, Vector2 *v) {
-    GRID_AT(rg, (int)v->x, (int)v->y) = type;
-    GRID_AT(wg, (int)v->x, (int)v->y) = type;
+inline void set_cell_type(PART_TYPE *rg, PART_TYPE *wg, PART_TYPE type, int x, int y) {
+    GRID_AT(rg, x, y)= type;
+    GRID_AT(wg, x, y)= type;
 }
