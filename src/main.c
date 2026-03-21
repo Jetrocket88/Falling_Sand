@@ -29,7 +29,8 @@ int main(void) {
         
         memcpy(write_grid, read_grid, rows * cols * sizeof(PART_TYPE));
 
-        mouse_place(read_grid, write_grid);
+        Mouse m = {.type = SAND, .radius = 1};
+        mouse_place(read_grid, write_grid, &m);
 
         for (int y = rows - 1; y >= 0; y--) {
             for (int x = cols - 1; x >= 0; x--) {
@@ -59,8 +60,8 @@ int main(void) {
                 }
             }
         }
-        mouse_place(read_grid, write_grid);
         draw_grid(write_grid);
+        mouse_place(read_grid, write_grid, &m);
         swap_grids(&read_grid, &write_grid);
         EndDrawing();
     }

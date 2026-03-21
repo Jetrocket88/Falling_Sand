@@ -103,3 +103,30 @@ inline Vector2 screen_to_cell(const Vector2 *pos) {
 }
 
 
+void draw_circle(PART_TYPE *grid, int cx, int cy, int radius, Color color) {
+    int x = 0;
+    int y = radius;
+    int d = 1 - radius;
+
+    while (x <= y) {
+        draw_hline(grid, cx - x, cx + x, cy + y, color); // Top/bottom wide spans
+        draw_hline(grid, cx - x, cx + x, cy - y, color);
+        draw_hline(grid, cx - y, cx + y, cy + x, color); // Middle spans
+        draw_hline(grid, cx - y, cx + y, cy - x, color);
+        if (d < 0) {
+            d += 2 * x + 3;
+        } else {
+            d += 2 * (x - y) + 5;
+            y--;
+        }
+        x++;
+    }
+    return;
+}
+
+
+void inline draw_hline(PART_TYPE *grid, int x1, int x2, int y, Color color) {
+    for (int x =  x1; x <= x2; x++) {
+        DrawRectangle(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE, color);
+    }
+}

@@ -3,6 +3,11 @@
 
 #include "game.h"
 
-void mouse_place(PART_TYPE *rg, PART_TYPE *wg);
+typedef struct {
+    PART_TYPE type;
+    int radius;
+} Mouse;
+
+void mouse_place(PART_TYPE *rg, PART_TYPE *wg, Mouse* m);
 
 #endif //MOUSE_H
