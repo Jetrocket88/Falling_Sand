@@ -92,6 +92,8 @@ inline void swap_grids(PART_TYPE **a, PART_TYPE **b) {
 }
 
 inline void set_cell_type(PART_TYPE *rg, PART_TYPE *wg, PART_TYPE type, int x, int y) {
+    if (GRID_AT(rg, x, y) == type) return;
+    if (GRID_AT(wg, x, y) == type) return;
     GRID_AT(rg, x, y)= type;
     GRID_AT(wg, x, y)= type;
 }
@@ -103,16 +105,16 @@ inline Vector2 screen_to_cell(const Vector2 *pos) {
 }
 
 
-void draw_circle(PART_TYPE *grid, int cx, int cy, int radius, Color color) {
+void draw_circle(int cx, int cy, int radius, Color color) {
     int x = 0;
     int y = radius;
     int d = 1 - radius;
 
     while (x <= y) {
-        draw_hline(grid, cx - x, cx + x, cy + y, color); // Top/bottom wide spans
-        draw_hline(grid, cx - x, cx + x, cy - y, color);
-        draw_hline(grid, cx - y, cx + y, cy + x, color); // Middle spans
-        draw_hline(grid, cx - y, cx + y, cy - x, color);
+        draw_hline(cx - x, cx + x, cy + y, color); // Top/bottom wide spans
+        draw_hline(cx - x, cx + x, cy - y, color);
+        draw_hline(cx - y, cx + y, cy + x, color); // Middle spans
+        draw_hline(cx - y, cx + y, cy - x, color);
         if (d < 0) {
             d += 2 * x + 3;
         } else {
@@ -120,13 +122,64 @@ void draw_circle(PART_TYPE *grid, int cx, int cy, int radius, Color color) {
             y--;
         }
         x++;
+
     }
-    return;
+
+}
+
+void circle_targets(DA_Targets *targets, int cx, int cy, int radius) {
+    int x = 0;
+    int y = radius;
+    int d = 1 - radius;
+
+    while (x <= y) {
+        hline_targets(targets, cx - x, cx + x, cy + y); // Top/bottom wide spans
+        hline_targets(targets, cx - x, cx + x, cy - y);
+        hline_targets(targets, cx - y, cx + y, cy + x); // Middle spans
+        hline_targets(targets, cx - y, cx + y, cy - x);
+        if (d < 0) {
+            d += 2 * x + 3;
+        } else {
+            d += 2 * (x - y) + 5;
+            y--;
+        }
+        x++;
+
+    }
 }
 
 
-void inline draw_hline(PART_TYPE *grid, int x1, int x2, int y, Color color) {
+void draw_hline(int x1, int x2, int y, Color color) {
     for (int x =  x1; x <= x2; x++) {
         DrawRectangle(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE, color);
+    }
+}
+
+void hline_targets(DA_Targets *targets, int x1, int x2, int y) {
+    for (int x =  x1; x <= x2; x++) {
+        Vector2 temp = {.x = x, .y = y};
+        da_append(targets, temp);
+    }
+}
+
+void draw_targets(DA_Targets *targets, Color c) {
+    for (int i = 0; i < targets->count; i++) {
+        Vector2 target = targets->items[i];
+        DrawRectangle(target.x * CELL_SIZE,
+                      target.y * CELL_SIZE,
+                      CELL_SIZE,
+                      CELL_SIZE,
+                      c 
+                  );
+    }
+}
+
+
+void place_targets(PART_TYPE* rg, PART_TYPE *wg, DA_Targets *targets, PART_TYPE t) {
+    Vector2 *target = {0};
+    for (int i = 0; i < targets->count; i++) {
+        target = &targets->items[i];
+        if (target->x <= 0 || target->x >= cols || target->y <= 0 || target->y >= rows) continue;
+        set_cell_type(rg, wg, t, target->x, target->y);
     }
 }
