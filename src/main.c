@@ -1,7 +1,6 @@
 #include "../include/raylib.h"
 
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -16,12 +15,10 @@ int main(void) {
     PART_TYPE *read_grid  = calloc(rows * cols, sizeof(PART_TYPE));
     PART_TYPE *write_grid = calloc(rows * cols, sizeof(PART_TYPE));
 
-    set_cell_type(read_grid, write_grid, SAND, cols / 2, rows / 2);
-    set_cell_type(read_grid, write_grid, SAND, cols / 2, rows / 2 - 1);
-    printf("Type at middle : %d", GRID_AT(read_grid, cols / 2, rows / 2));
-
     InitWindow(800, 800, "Raylib Basic Window");
     SetTargetFPS(100);
+
+    Mouse m = {.type = WOOD, .radius = 1};
 
     while(!WindowShouldClose()) {
         BeginDrawing();
@@ -29,8 +26,7 @@ int main(void) {
         
         memcpy(write_grid, read_grid, rows * cols * sizeof(PART_TYPE));
 
-        Mouse m = {.type = SAND, .radius = 1};
-        mouse_place(read_grid, write_grid, &m);
+        //mouse_place(read_grid, write_grid, &m);
 
         for (int y = rows - 1; y >= 0; y--) {
             for (int x = cols - 1; x >= 0; x--) {
@@ -41,6 +37,7 @@ int main(void) {
                     break;
 
                     case WOOD:
+                        wood_physics(write_grid, &v);
                     break;
 
                     case FIRE:
@@ -60,6 +57,8 @@ int main(void) {
                 }
             }
         }
+
+        handle_inputs(read_grid, write_grid, &m);
         draw_grid(write_grid);
         mouse_place(read_grid, write_grid, &m);
         swap_grids(&read_grid, &write_grid);

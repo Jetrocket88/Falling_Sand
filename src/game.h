@@ -20,6 +20,9 @@ typedef enum {
     ASH
 } PART_TYPE;
 
+
+extern Color colors[8];
+
 typedef struct {
     Vector2 *items;
     size_t count;
@@ -40,12 +43,14 @@ void swap_cells(PART_TYPE *grid, Vector2 *p1, Vector2 *p2);
 void swap_grids(PART_TYPE **a, PART_TYPE **b);
 void set_cell_type(PART_TYPE *rg, PART_TYPE *wg, PART_TYPE type, int x, int y);
 void show_info();
+void clear_grid(PART_TYPE *rg, PART_TYPE *wg);
 
 void draw_grid(PART_TYPE *grid);
 void draw_circle(int cx, int cy, int radius, Color color);
 void draw_hline(int x1, int x2, int y, Color color);
 
 void sand_physics(PART_TYPE *write_grid, Vector2* v);
+void wood_physics(PART_TYPE *write_grid, Vector2* v);
 
 void circle_targets(DA_Targets *targets, int cx, int cy, int radius);
 void hline_targets(DA_Targets *targets, int x1, int x2, int y);

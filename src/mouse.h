@@ -9,5 +9,6 @@ typedef struct {
 } Mouse;
 
 void mouse_place(PART_TYPE *rg, PART_TYPE *wg, Mouse* m);
+void handle_inputs(PART_TYPE *rg, PART_TYPE *wg, Mouse *m);
 
 #endif //MOUSE_H

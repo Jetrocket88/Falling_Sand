@@ -23,3 +23,16 @@ Finally:
     Draw the result
 
 
+
+
+TODO:
+
+    Implement UI:
+        Settings icon which when clicked,
+        Will show other icons to change material type,
+        clear the screen and much more.
+        Will be implemented using rayGUI.
+    Implement better sand physics:
+        Right now, the sand is left leaning and only seems
+        to act like normal sand when falling to the left
+
