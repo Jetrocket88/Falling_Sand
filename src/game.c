@@ -45,6 +45,10 @@ void draw_grid(PART_TYPE *grid) {
             case EMPTY:
                 color = BLACK;
                 break;
+
+            case ASH:
+                color = BLACK;
+                break;
             default:
                 printf("Error\n");
                 break;

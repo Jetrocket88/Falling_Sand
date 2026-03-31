@@ -13,7 +13,8 @@ void mouse_place(PART_TYPE *rg, PART_TYPE *wg, Mouse* m) {
         place_targets(rg, wg, &targets, m->type);
     } else {
         Color draw_color = colors[m->type];
-        draw_color.a *= 0.3;
+        if (draw_color != (Color){.r = 1.0f, .b = 1.0f, .g = 1.0f, .a = 1.0f})
+            draw_color.a *= 0.3;
         draw_targets(&targets, draw_color);
     }
     targets.count = 0;
@@ -21,17 +22,21 @@ void mouse_place(PART_TYPE *rg, PART_TYPE *wg, Mouse* m) {
 
 void handle_inputs(PART_TYPE *rg, PART_TYPE *wg, Mouse *m) {
     static double pressed = 0;
-    if (IsKeyDown(KEY_U) && GetTime() - pressed > 0.1f) {
+    const double delay = 0.5f;
+    if (IsKeyDown(KEY_U) && GetTime() - pressed > delay) {
         m->radius += 1;
         pressed = GetTime();
-    } else if (IsKeyDown(KEY_D) && GetTime() - pressed > 0.1f) {
+    } else if (IsKeyDown(KEY_D) && GetTime() - pressed > delay) {
         m->radius -= 1;
         pressed = GetTime();
     }
 
-    if (IsKeyDown(KEY_LEFT) && GetTime() - pressed > 0.1f) {
-        m->type = (m->type == SAND) ? WOOD : SAND;
+    if (IsKeyDown(KEY_LEFT) && GetTime() - pressed > delay) {
         pressed = GetTime();
+        m->type++;
+        if (m->type == EMPTY) {
+            m->type = SAND;
+        }
     }
 
     if (IsKeyDown(KEY_C)) {

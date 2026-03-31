@@ -18,7 +18,7 @@ int main(void) {
     InitWindow(800, 800, "Raylib Basic Window");
     SetTargetFPS(100);
 
-    Mouse m = {.type = WOOD, .radius = 1};
+    Mouse m = {.type = WOOD, .radius = 4};
 
     while(!WindowShouldClose()) {
         BeginDrawing();
